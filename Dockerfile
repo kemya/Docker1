@@ -6,6 +6,12 @@ RUN apt-get install -y build-essential wget gcc make
 #missing perl
 #missing perl module DBD::mysql
 
+#get PASA itself
+RUN git clone https://github.com/PASApipeline/PASApipeline.git
+WORKDIR PASApiepline
+RUN make
+
+
 # get gmap
 RUN wget http://research-pub.gene.com/gmap/src/gmap-gsnap-2016-07-11.tar.gz
 RUN tar zxvf gmap-gsnap-2016-07-11.tar.gz
