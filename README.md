@@ -15,3 +15,14 @@ PASA requires to work:
 
 I'm not completely sure if with those many dependencies i should try to use docker-compose 
 to have these guys playing well together
+
+also while i'm at it i might also point out that for this to actually work once mysql is installed
+it needs to create 2 users one with read and write rights and one with read only rights
+#enter mysql
+mysql -u username -p
+#create users
+
+#grant privileges
+GRANT ALL PRIVILEGES ON * . * TO 'RW-rights-user'@'localhost';
+GRANT SELECT ON * . * TO 'RO-rights-user'@'localhost';
+FLUSH PRIVILEGES;
