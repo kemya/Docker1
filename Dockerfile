@@ -7,7 +7,7 @@
 # Documentation:    http://pasa.sf.net
 # Website:          https://github.com/PASApipeline/PASApipeline.git
 # Tags:             Genomics Annotation
-# Provides:         bowtie2 2.2.9
+# Dependencies:     BLAT FASTA gmap perl mysql
 # Base Image:       ubuntu:14.04
 # Build Cmd:        docker build --rm -t <img>
 # Pull Cmd:         docker pull <img>
