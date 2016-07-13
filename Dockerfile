@@ -24,8 +24,8 @@ RUN apt-get install -qqy libopenmpi-dev
 #missing perl
 #missing perl module DBD::mysql
 
-
-WORKDIR /tmp
+RUN mkdir pasa
+WORKDIR pasa
 #get PASA itself
 RUN git clone https://github.com/PASApipeline/PASApipeline.git && cd PASApipeline
 RUN make
@@ -34,15 +34,23 @@ RUN make
 # get gmap
 ADD http://research-pub.gene.com/gmap/src/gmap-gsnap-2016-07-11.tar.gz ./
 RUN tar -xzvf *.tar.gz && rm *.tar.gz && mv gmap-gsnap* gmap-gsnap && cd gmap-gsnap && ./configure && make && make check
-ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/tmp/gmap-gsnap
 
 # get BLAT
+RUN mkdir blat
+ADD http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/* ./blat
+#blat is pretty tricky. i seem to remember you have to change $MACHTYPE for it to work.
+#ex. echo $MACHTYPE -> x86_64-redhat-linux-gnu
+#has to become the short version x86_64 [to check]
 
 
 #get FASTA
-#[to check]#RUN wget http://faculty.virginia.edu/wrpearson/fasta/CURRENT/fasta-36.3.8d-linux64.tar.gz
+RUN mkdir FASTA
+RUN wget http://faculty.virginia.edu/wrpearson/fasta/CURRENT/fasta-36.3.8d-linux64.tar.gz
+#RUN tar -zxvf fasta-36.3.8d-linux64.tar.gz 
 #this is the precompiled for linux 64. is this what i want or do I prefer to compile myself?
-#[to check]#RUN tar zxvf fasta-36.3.8d-linux64.tar.gz 
-#[to check]#WORKDIR fasta-36.3.8d-linux64
+#also i remember from the past that somehow you need to change the name to the main command from fasta[somenumber] to fasta
+
 
 #get mysql
+
+ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:`WORKDIR`/gmap-gsnap:`WORKDIR`/blat:`WORKDIR`/PASApipeline
