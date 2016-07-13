@@ -1,5 +1,22 @@
+#################################################################
+# Dockerfile
+#
+# Version:          1
+# Software:         PASApipeline
+# Software Version: 2.0.2
+# Documentation:    http://pasa.sf.net
+# Website:          https://github.com/PASApipeline/PASApipeline.git
+# Tags:             Genomics Annotation
+# Provides:         bowtie2 2.2.9
+# Base Image:       ubuntu:14.04
+# Build Cmd:        docker build --rm -t <img>
+# Pull Cmd:         docker pull <img>
+# Run Cmd:          docker run --rm -it <img> <options> <files>
+#################################################################
+
 # start from base
 FROM ubuntu:14.04
+MAINTAINER stef.bertazzoni@gmail.com
 # install system-wide stuff
 RUN apt-get update
 RUN apt-get install -y build-essential wget gcc make
@@ -8,7 +25,7 @@ RUN apt-get install -y build-essential wget gcc make
 
 #get PASA itself
 RUN git clone https://github.com/PASApipeline/PASApipeline.git
-WORKDIR PASApiepline
+WORKDIR PASApipeline
 RUN make
 
 
