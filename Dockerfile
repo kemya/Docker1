@@ -20,23 +20,21 @@ MAINTAINER stef.bertazzoni@gmail.com
 # install system-wide stuff
 RUN apt-get update
 RUN apt-get install -y build-essential wget gcc make
+RUN apt-get install -qqy libopenmpi-dev
 #missing perl
 #missing perl module DBD::mysql
 
+
+WORKDIR /tmp
 #get PASA itself
-RUN git clone https://github.com/PASApipeline/PASApipeline.git
-WORKDIR PASApipeline
+RUN git clone https://github.com/PASApipeline/PASApipeline.git && cd PASApipeline
 RUN make
 
 
 # get gmap
-RUN wget http://research-pub.gene.com/gmap/src/gmap-gsnap-2016-07-11.tar.gz
-RUN tar zxvf gmap-gsnap-2016-07-11.tar.gz
-WORKDIR gmap-gsnap-2016-07-11
-RUN ./configure
-RUN make
-RUN make check
-
+ADD http://research-pub.gene.com/gmap/src/gmap-gsnap-2016-07-11.tar.gz ./
+RUN tar -xzvf *.tar.gz && rm *.tar.gz && mv gmap-gsnap* gmap-gsnap && cd gmap-gsnap && ./configure && make && make check
+ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/tmp/gmap-gsnap
 
 # get BLAT
 
