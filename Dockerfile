@@ -18,17 +18,16 @@
 FROM ubuntu:14.04
 MAINTAINER stef.bertazzoni@gmail.com
 # install system-wide stuff
-RUN apt-get update
-RUN apt-get install -y build-essential wget gcc make
-RUN apt-get install -qqy libopenmpi-dev
+RUN apt-get update \
+&& apt-get install -y build-essential wget libopenmpi-dev
 #missing perl
 #missing perl module DBD::mysql
 
-RUN mkdir pasa
 WORKDIR pasa
-#get PASA itself
-RUN git clone https://github.com/PASApipeline/PASApipeline.git && cd PASApipeline
-RUN make
+RUN mkdir -p pasa \
+&& git clone https://github.com/PASApipeline/PASApipeline.git \
+&& cd PASApipeline \
+&& make
 
 
 # get gmap
